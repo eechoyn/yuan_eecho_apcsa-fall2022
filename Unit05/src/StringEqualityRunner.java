@@ -12,7 +12,11 @@ public class StringEqualityRunner
 {
 	public static void main( String args[] )
 	{
-		//add test cases
+		String testOne = "Same";
+		String testTwo = "same"; 
+		StringEquality test = new StringEquality(testOne, testTwo);
+		test.checkEquality();
+		System.out.print(test.toString());
 		
 	}
 }

@@ -14,23 +14,38 @@ public class StringEquality
 
 	public StringEquality()
 	{
+		wordOne = ""; 
+		wordTwo = ""; 
 	}
 
 	public StringEquality(String one, String two)
 	{
+		wordOne = one; 
+		wordTwo = two; 
 	}
 
 	public void setWords(String one, String two)
 	{
+		wordOne = one; 
+		wordTwo = two; 
 	}
 
 	public boolean checkEquality( )
 	{
+		//wordOne.compareTo(wordTwo)==0 && 
+		if (wordOne.equals(wordTwo)) {
+			return true; 
+		}
 		return false;
 	}
 
 	public String toString()
 	{
-		return wordOne + " does not have the same letters as " + wordTwo + "\n";
+		if (checkEquality()) {
+			return wordOne + " does have the same letters as " + wordTwo + "\n";
+		}
+		else {
+			return wordOne + " does not have the same letters as " + wordTwo + "\n";
+		}
 	}
 }

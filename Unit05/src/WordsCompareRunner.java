@@ -12,7 +12,11 @@ public class WordsCompareRunner
 {
    public static void main( String args[] )
    {
-		//add test cases
+		String testOne = "abe"; 
+		String testTwo = "ape"; 
+		WordsCompare test = new WordsCompare(testOne, testTwo); 
+		test.compare(); 
+		System.out.println(test.toString()); 
 
 	}
 }
