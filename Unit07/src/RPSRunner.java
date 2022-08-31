@@ -16,10 +16,16 @@ public class RPSRunner
 		
 			String player = "";
 		
-			out.print("type in your prompt [R,P,S] :: ");
-			RockPaperScissors game = new RockPaperScissors(keyboard.next());
-			game.determineWinner(); 
-			System.out.println(game); 
+			do {
+				out.print("type in your prompt [R,P,S] :: ");
+				RockPaperScissors game = new RockPaperScissors(keyboard.next());
+				game.determineWinner(); 
+				System.out.println(game); 
+				
+				System.out.print("Do you want to play again? [y,n]");
+				response = keyboard.next().charAt(0); 
+			}
+			while(response=='Y'||response=='y');
 	}
 }
 

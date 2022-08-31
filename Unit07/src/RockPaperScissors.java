@@ -44,7 +44,7 @@ public class RockPaperScissors
 			winner="Player"; 
 		}
 		else if (player==computer) {
-			winner="none"; 
+			winner=""; 
 		}
 		else {
 			winner="Computer"; 
@@ -55,7 +55,7 @@ public class RockPaperScissors
 	public String toString()
 	{
 		String output="";
-		if (determineWinner().equals("none")){
+		if (determineWinner().equals("")){
 			output="Draw game!"; 
 		}
 		else {
