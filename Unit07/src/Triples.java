@@ -69,7 +69,7 @@ public class Triples
 		for (int a =0; a<= number; a++) {
 			for (int b =0; b<= number; b++) {
 				for (int c = 0; c<=number; c++) {
-					if (greatestCommonFactor(a, b, c)==1 && oddOrEven(a,b,c) && theorem(a,b,c)) {
+					if (greatestCommonFactor(a, b, c)==1 && oddOrEven(a,b,c) && theorem(a,b,c) && a<b && b<c && a<c) {
 						output = output + "\n " + a + " " + b + " " + c; 
 					}
 				}
