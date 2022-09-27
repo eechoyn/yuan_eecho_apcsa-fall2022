@@ -76,5 +76,11 @@ public class Shuffler {
 	 */
 	public static void selectionShuffle(int[] values) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 3 *** */
+		for (int k = cards.size()-1; k>0; k--) {
+			int r = (int) ((int)k*Math.random()); 
+			Card temp = cards.get(r); 
+			cards.set(r,cards.get(k));  
+			cards.set(k,temp); 
+		}
 	}
 }
