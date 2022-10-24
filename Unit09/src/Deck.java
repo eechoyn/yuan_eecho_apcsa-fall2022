@@ -79,6 +79,7 @@ public class Deck {
 			cards[r]=cards[k]; 
 			cards[k]=temp; 
 		}
+		size=cards.length; 
 	}
 
 	/**

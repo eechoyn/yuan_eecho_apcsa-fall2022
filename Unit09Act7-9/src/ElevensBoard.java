@@ -116,22 +116,19 @@ public class ElevensBoard extends Board {
 	 */
 	private boolean containsJQK(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		int jack = 0, queen = 0, king = 0; 
-		if (selectedCards.size()!=3) {
-			return false; 
-		}
+		boolean jack = false, queen= false, king= false; 
 		for(int i=0; i<selectedCards.size(); i++) {
-			if (cardAt(selectedCards.get(i)).pointValue()==10) {
-				jack++; 
+			if (cardAt(selectedCards.get(i)).rank().equalsIgnoreCase("jack")) {
+				jack=true; 
 			}
-			if (cardAt(selectedCards.get(i)).pointValue()==11) {
-				queen++; 
+			if (cardAt(selectedCards.get(i)).rank().equalsIgnoreCase("queen")) {
+				queen=true; 
 			}
-			if (cardAt(selectedCards.get(i)).pointValue()==12) {
-				king++; 
+			if (cardAt(selectedCards.get(i)).rank().equalsIgnoreCase("king")) {
+				king=true; 
 			}
 		}
-		if (jack>=1 && queen>=1 && king>=1) {
+		if (jack&&queen&&king) {
 			return true; 
 		}
 		else {
