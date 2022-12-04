@@ -175,7 +175,8 @@ public class PictureTester
   public static void testEncodeAndDecode()
   {
     Picture swan = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/swan.jpg");
-    Picture message = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/apple_icon.jpg"); 
+    Picture message = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/msg.jpg"); 
+    swan.explore();
     swan.encode(message); 
     swan.explore();
     swan.decode().explore(); 

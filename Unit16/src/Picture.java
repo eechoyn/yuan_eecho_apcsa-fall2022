@@ -536,6 +536,12 @@ public class Picture extends SimplePicture
 	  int sum = (int)0.5*(pic.getRed()-pic.getBlue())+(pic.getRed()-pic.getGreen());
 	  return sum; 
   }
+  
+  public int findSumKey(Pixel pic) {
+	  int sum = pic.getRed()%10+pic.getBlue()%10+pic.getGreen()%10;
+	  return sum; 
+  }
+  
   public void encode(Picture messagePict){
 	  Pixel[][] messagePixels = messagePict.getPixels2D();
 	  Pixel[][] currPixels = this.getPixels2D();
@@ -550,7 +556,7 @@ public class Picture extends SimplePicture
 	  
 	  for (int i = 0; i<7; i++) {
 		  currPixel = currPixels[0][i];
-		  if(currPixel.getRed()%2==0) {
+		  if(findSumKey(currPixel)%2==0) {
 			  if(currPixel.getRed()!=255) {
 					currPixel.setRed(currPixel.getRed() + 1); 
 				}
@@ -613,7 +619,7 @@ public class Picture extends SimplePicture
 	  
 	  for(int i = 0; i<7; i++) {
 		  currPixel = pixels[0][i];
-		  if(currPixel.getRed() % 2 == 0) {
+		  if(findSumKey(currPixel) % 2 == 0) {
 			  key++; 
 		  }
 	  }
