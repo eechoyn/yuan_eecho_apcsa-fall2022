@@ -111,6 +111,32 @@ public class Picture extends SimplePicture
     }
   }
   
+  public void keepOnlyRed()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setGreen(0);
+        pixelObj.setBlue(0);
+      }
+    }
+  }
+  
+  public void keepOnlyGreen()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setBlue(0);
+        pixelObj.setRed(0);
+      }
+    }
+  }
+  
   public void negate() {
 	  Pixel[][] pixels = this.getPixels2D();
 	    for (Pixel[] rowArray : pixels)
@@ -406,7 +432,7 @@ public class Picture extends SimplePicture
 //    this.copy(flower2,500,0);
 //    this.copy2(flower2,500, 600,0, 100);
     this.mirrorVertical();
-    this.write("collage.jpg");
+//    this.write("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/640x480.jpg");
   }
   
   public void myCollage() {
@@ -419,7 +445,7 @@ public class Picture extends SimplePicture
 	  this.copy2(doorBG, 0, 150, 200, 400); 
 	  this.copy2(doorNoBlue, 0, 150, 400, 600); 
 	  this.mirrorHorizontal(); 
-	  this.write("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/640x480.jpg");
+	  this.write("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/640x4801.jpg");
   }
   
   
@@ -482,38 +508,115 @@ public class Picture extends SimplePicture
   * setting it to odd if the message pixel is black
   * @param messagePict the picture with a message
   */
+//  public void encode(Picture messagePict){
+//	  Pixel[][] messagePixels = messagePict.getPixels2D();
+//	  Pixel[][] currPixels = this.getPixels2D();
+//	  Pixel currPixel = null;
+//	  Pixel messagePixel = null;
+//	  int count = 0;
+//	  for (int row = 0; row < this.getHeight(); row++){
+//		  for (int col = 0; col < this.getWidth(); col++){
+//		  // if the current pixel red is odd make it even
+//		  currPixel = currPixels[row][col];
+//		  if (currPixel.getRed() % 2 == 1)
+//			  currPixel.setRed(currPixel.getRed() - 1);{
+//				  messagePixel = messagePixels[row][col];
+//			  }
+//		  if (messagePixel.colorDistance(Color.BLACK) < 50){
+//			  currPixel.setRed(currPixel.getRed() + 1);
+//			  count++;
+//		  	}
+//		  }
+//	  }
+//	  System.out.println(count);
+//  	}
+
+  
+  public int findSum(Pixel pic) {
+	  int sum = (int)0.5*(pic.getRed()-pic.getBlue())+(pic.getRed()-pic.getGreen());
+	  return sum; 
+  }
   public void encode(Picture messagePict){
 	  Pixel[][] messagePixels = messagePict.getPixels2D();
 	  Pixel[][] currPixels = this.getPixels2D();
 	  Pixel currPixel = null;
 	  Pixel messagePixel = null;
 	  int count = 0;
+	  int correct = 0; 
+	  
+	  int key = (int)(Math.random()*7+3); 
+	  int keyCount = key-3;
+	  System.out.println(key);
+	  
+	  for (int i = 0; i<7; i++) {
+		  currPixel = currPixels[0][i];
+		  if(currPixel.getRed()%2==0) {
+			  if(currPixel.getRed()!=255) {
+					currPixel.setRed(currPixel.getRed() + 1); 
+				}
+				else {
+					currPixel.setRed(currPixel.getRed() - 1); 
+				}
+		  }
+		  if(keyCount>-1) {
+			  if(currPixel.getRed()!=0) {
+					currPixel.setRed(currPixel.getRed() - 1); 
+				}
+				else {
+					currPixel.setRed(currPixel.getRed() + 1); 
+				}
+		  }
+		  keyCount--; 
+	  }
 	  for (int row = 0; row < this.getHeight(); row++){
 		  for (int col = 0; col < this.getWidth(); col++){
 		  // if the current pixel red is odd make it even
+		if(col<=7 && row==0) {
+			continue; 
+		}
+		else {
 		  currPixel = currPixels[row][col];
-		  if (currPixel.getRed() % 2 == 1)
-			  currPixel.setRed(currPixel.getRed() - 1);{
-				  messagePixel = messagePixels[row][col];
-			  }
+			if(findSum(currPixel)%key==0) {
+				if(currPixel.getRed()!=255) {
+					currPixel.setRed(currPixel.getRed() + 1); 
+				}
+				else {
+					currPixel.setRed(currPixel.getRed() - 1); 
+				}
+			} 
+		messagePixel= messagePixels[row][col]; 
+		  int change = findSum(currPixel)%key; 
 		  if (messagePixel.colorDistance(Color.BLACK) < 50){
-			  currPixel.setRed(currPixel.getRed() + 1);
-			  count++;
-		  	}
+			  if(currPixel.getRed()>=change) {
+				  currPixel.setRed(currPixel.getRed() - change); 
+			  }
+			  else {
+				  currPixel.setRed(currPixel.getRed() + (key-change)); 
+			  }
+				  count++;
+				  if(findSum(currPixel)%key==0) {
+					  correct++; 
+				  }
+			  }
+		  }
 		  }
 	  }
-	  System.out.println(count);
+	  System.out.println(count + " : " + correct);
   	}
-  /**
-  * Method to decode a message hidden in the
-  * red value of the current picture
-  * @return the picture with the hidden message
-  */
+  
   public Picture decode(){
 	  Pixel[][] pixels = this.getPixels2D();
 	  int height = this.getHeight();
 	  int width = this.getWidth();
 	  Pixel currPixel = null;
+	  int key=2; 
+	  
+	  for(int i = 0; i<7; i++) {
+		  currPixel = pixels[0][i];
+		  if(currPixel.getRed() % 2 == 0) {
+			  key++; 
+		  }
+	  }
 
 	  Pixel messagePixel = null;
 	  Picture messagePicture = new Picture(height,width);
@@ -521,17 +624,48 @@ public class Picture extends SimplePicture
 	  int count = 0;
 	  for (int row = 0; row < this.getHeight(); row++){
 		  for (int col = 0; col < this.getWidth(); col++){
+			  if(col<=7 && row==0) {
+					continue; 
+				}
 			  currPixel = pixels[row][col];
-			  messagePixel = messagePixels[row][col];
-			  if (currPixel.getRed() % 2 == 1){
+			  messagePixel = messagePixels[row][col]; 
+			  if (findSum(currPixel)%key==0){
 				  messagePixel.setColor(Color.BLACK);
 				  count++;
 			  }
 		  	}
 	  	}
-	  System.out.println(count);
+	  System.out.println(key + " " + count);
 	  return messagePicture;
 	 }
+  /**
+  * Method to decode a message hidden in the
+  * red value of the current picture
+  * @return the picture with the hidden message
+  */
+//  public Picture decode(){
+//	  Pixel[][] pixels = this.getPixels2D();
+//	  int height = this.getHeight();
+//	  int width = this.getWidth();
+//	  Pixel currPixel = null;
+//
+//	  Pixel messagePixel = null;
+//	  Picture messagePicture = new Picture(height,width);
+//	  Pixel[][] messagePixels = messagePicture.getPixels2D();
+//	  int count = 0;
+//	  for (int row = 0; row < this.getHeight(); row++){
+//		  for (int col = 0; col < this.getWidth(); col++){
+//			  currPixel = pixels[row][col];
+//			  messagePixel = messagePixels[row][col];
+//			  if (currPixel.getRed() % 2 == 1){
+//				  messagePixel.setColor(Color.BLACK);
+//				  count++;
+//			  }
+//		  	}
+//	  	}
+//	  System.out.println(count);
+//	  return messagePicture;
+//	 }
   
   /* Main method for testing - each class in Java can have a main 
    * method 

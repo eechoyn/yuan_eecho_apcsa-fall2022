@@ -24,6 +24,20 @@ public class PictureTester
 	  beach.explore();
   }
   
+  public static void testKeepOnlyRed() {
+	  Picture beach = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
+	  beach.explore();
+	  beach.keepOnlyRed();
+	  beach.explore();
+  }
+  
+  public static void testKeepOnlyGreen() {
+	  Picture beach = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
+	  beach.explore();
+	  beach.keepOnlyGreen();
+	  beach.explore();
+  }
+  
   public static void testNegate() {
 	  Picture beach = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
 	  beach.explore();
@@ -120,7 +134,7 @@ public class PictureTester
   
   public static void testMyCollage()
   {
-    Picture canvas = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/640x480.jpg");
+    Picture canvas = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/640x4801.jpg");
     canvas.myCollage();
     canvas.explore();
   }
@@ -133,6 +147,16 @@ public class PictureTester
 	  canvas.copy(flower1, 0, 0); 
 	  canvas.explore();
   }
+  
+  public static void testCopy2() {
+	  Picture canvas = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/640x480.jpg");
+	  Picture flower1 = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/flower1.jpg");
+	  Picture flower2 = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/flower2.jpg"); 
+	  canvas.explore();
+	  canvas.copy2(flower1, 0,30,0,30); 
+	  canvas.explore();
+  }
+  
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
   {
@@ -151,7 +175,7 @@ public class PictureTester
   public static void testEncodeAndDecode()
   {
     Picture swan = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/swan.jpg");
-    Picture message = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/msg.jpg"); 
+    Picture message = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/apple.jpg"); 
     swan.encode(message); 
     swan.explore();
     swan.decode().explore(); 
@@ -166,8 +190,8 @@ public class PictureTester
     // to run
 //    testZeroBlue();
 //    testKeepOnlyBlue();
-    //testKeepOnlyRed();
-    //testKeepOnlyGreen();
+//    testKeepOnlyRed();
+//    testKeepOnlyGreen();
 //    testNegate();
 //    testGrayscale();
 //    testFixUnderwater();
@@ -181,7 +205,8 @@ public class PictureTester
 //    testMirrorGull();
 //    testCollage();
 //    testCopy();
-//	  testMyCollage(); 
+//    testCopy2();
+//	 testMyCollage(); 
 //    testEdgeDetection();
 //    testEdgeDetection2();
     //testChromakey();
