@@ -586,7 +586,7 @@ public class Picture extends SimplePicture
 			} 
 		messagePixel= messagePixels[row][col]; 
 		  int change = findSum(currPixel)%key; 
-		  if (messagePixel.colorDistance(Color.BLACK) < 50){
+		  if (messagePixel.colorDistance(Color.BLACK) < 70){
 			  if(currPixel.getRed()>=change) {
 				  currPixel.setRed(currPixel.getRed() - change); 
 			  }
