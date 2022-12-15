@@ -1,10 +1,6 @@
-//(c) A+ Computer Science
-//www.apluscompsci.com
-//Name -
-
-//(c) A+ Computer Science
-//www.apluscompsci.com
-//Name -
+////(c) A+ Computer Science
+////www.apluscompsci.com
+////Name -
 
 import java.io.File;
 import java.net.URL;
@@ -20,24 +16,23 @@ public class Ship extends MovingThing
 
 	public Ship()
 	{
-		this(10,10,50,50,3);
+		this(10,10,50,50,10);
 	}
 
 	public Ship(int x, int y)
 	{
-		this(x,y,50,50,3);
+	   this(x, y, 50, 50, 10);
 	}
 
 	public Ship(int x, int y, int s)
 	{
-		this(x,y,50,50,s);
+	   this(x, y, 50, 50, s);
 	}
 
 	public Ship(int x, int y, int w, int h, int s)
 	{
 		super(x, y, w, h);
 		speed=s;
-		
 		try
 		{
 			image = ImageIO.read(new File("/Users/eechoyuan/Desktop/apcsa/yuan_eecho_apcsa-fall2022/Unit17/src/ship.jpg"));
@@ -50,9 +45,10 @@ public class Ship extends MovingThing
 		}
 	}
 
+
 	public void setSpeed(int s)
 	{
-	   speed = s;
+	   speed=s;
 	}
 
 	public int getSpeed()
@@ -62,23 +58,15 @@ public class Ship extends MovingThing
 
 	public void move(String direction)
 	{
-        if (direction.equals("UP"))
-            super.setY(super.getY() + speed);
-        
-        if (direction.equals("DOWN"))
-            super.setY(super.getY() - speed);
-        
-        if (direction.equals("LEFT"))
-            super.setX(getX() - speed);
-       
-        if (direction.equals("RIGHT"))
-            super.setX(getX() + speed);
-
+		if (direction.equals("LEFT")) setX(getX()-getSpeed());
+		else if (direction.equals("RIGHT")) setX(getX()+getSpeed());
+		else if (direction.equals("UP")) setY(getY()-getSpeed());
+		else if (direction.equals("DOWN")) setY(getY()+getSpeed());
 	}
 
 	public void draw( Graphics window )
 	{
-   	window.drawImage(image,getX(),getY(),getWidth(),getHeight(),null);
+		window.drawImage(image,getX(),getY(),getWidth(),getHeight(),null);
 	}
 
 	public String toString()

@@ -14,60 +14,32 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Canvas;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-import static java.lang.Character.*;
-import java.awt.image.BufferedImage;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 public class OuterSpace extends Canvas implements KeyListener, Runnable
 {
 	private Ship ship;
-
 	private AlienHorde horde;
 	private Bullets shots;
-
-	private boolean[] keys;
-	private BufferedImage back;
-	private boolean pressed;
-
-	private int numAli;
-	private boolean gameOver;
 	
-	public OuterSpace(int w, int h)
+	private boolean end;
+	private boolean[] keys;
+	private boolean pressed;
+	private BufferedImage back;
+
+	public OuterSpace()
 	{
 		setBackground(Color.black);
 
 		keys = new boolean[5];
-
-		//instantiate other instance variables
-		//Ship, Alien
-        ship = new Ship(400, 400);
-        shots = new Bullets();
-        horde = new AlienHorde();
-        
-        Alien[] aliens = new Alien[5];
-        
-        numAli = aliens.length;
-        
-        for (int i = 0; i < aliens.length; i++) {
-            aliens[i] = new Alien(100 * i, 30, 2);
-            horde.add(aliens[i]);
-        }
-        
+		ship = new Ship(400, 400, 50, 50, 10);
+		horde = new AlienHorde(10);
+		shots = new Bullets();
 		this.addKeyListener(this);
 		new Thread(this).start();
 
 		setVisible(true);
 	}
 
-public void update(Graphics window)
+   public void update(Graphics window)
    {
 	   paint(window);
    }
@@ -90,65 +62,64 @@ public void update(Graphics window)
 		graphToBack.drawString("StarFighter ", 25, 50 );
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0,0,800,600);
-
-		if (gameOver) 
+		ship.draw(graphToBack);
+		horde.drawEmAll(graphToBack);
+		shots.drawEmAll(graphToBack);
+		shots.moveEmAll();
+		horde.moveEmAll();
+		horde.removeDeadOnes(shots.getList());
+		shots.cleanEmUp();
+		
+		if (end) 
 		{
 			graphToBack.setColor(Color.WHITE);
 			if (horde.getList().size()==0)
 		   	{
-				graphToBack.drawString("You won!", 375, 200);
+				graphToBack.drawString("You won!", 375, 350);
 		   	}
-			else graphToBack.drawString("You lost!", 375, 200);
+			else graphToBack.drawString("You lost!", 375, 350);
 		}
 		
-		if (keys[0]) {
-            ship.move("LEFT");
-        }
-        if (keys[1]) {
-            ship.move("RIGHT");
-        }
-        if (keys[2]) {
-            ship.move("DOWN");
-        }
-        if (keys[3]) {
-            ship.move("UP");
-        }
-        if (keys[4] && !pressed) {
-        		pressed = true;
-        		shots.add(new Ammo((ship.getX() + ship.getWidth() / 2) - 5, ship.getY() - 5, 5));
-        }
-
-		//add code to move Ship, Alien, etc.
-        if (ship.getX() < 0) {
-            ship.setX(0);
-        }
-        if (ship.getX() > 800 - ship.getWidth()) {
-            ship.setX(800 - ship.getWidth());
-        }
-        if (ship.getY() < 0) {
-            ship.setY(0);
-        }
-        if (ship.getY() > 600 - ship.getHeight()) {
-            ship.setY(600 - ship.getHeight());
-        }
-        
-        ship.draw(graphToBack);
-        shots.drawEmAll(graphToBack);
-        shots.moveEmAll();
-        shots.cleanEmUp();
-        horde.drawEmAll(graphToBack);
-        horde.moveEmAll();
-		//add in collision detection to see if Bullets hit the Aliens and if Bullets hit the Ship
-        
-        for (int i = 0; i < numAli; i++) {
-        	if(shots.collision(horde.getAlien(i))){
-        		horde.removeDeadOnes(true, horde.getAlien(i));
-//        		horde.getAlien(i).setPos(-100, -100);;
-    		}
-        }
-        if (horde.getList().size()==0) 
+		if(keys[0] == true && ship.getX()>ship.getSpeed())
 		{
-			gameOver=true;
+			ship.move("LEFT");
+		}
+		if (keys[1] == true && ship.getX()<(800-ship.getSpeed()-ship.getWidth()))
+		{
+			ship.move("RIGHT");
+		}
+		if (keys[2] == true && ship.getY()>ship.getSpeed())
+		{
+			ship.move("UP");
+		}
+		if (keys[3] == true && ship.getY()<(600-ship.getSpeed()-ship.getHeight()-20))
+		{
+			ship.move("DOWN");
+		}
+		if (keys[4] == true && !end && !pressed)
+		{
+			pressed = true; 
+			shots.add(new Ammo((ship.getX()+ship.getWidth()/2), ship.getY()-5, 5, 5, 5));
+			keys[4]=false;
+		}
+		
+		
+		
+		for (Alien alien : horde.getList())
+		{
+			if (shots.collision(alien))
+			{
+				horde.stopHorde();
+				ship.setSpeed(0);
+				shots.clear();
+				end=true;
+			}	
+		}
+
+		
+		if (horde.getList().size()==0) 
+		{
+			end=true;
 			ship.setSpeed(0);
 		}
 		
@@ -208,6 +179,7 @@ public void update(Graphics window)
 		repaint();
 	}
 
+
 	public void keyTyped(KeyEvent e)
 	{
       //no code needed here
@@ -219,12 +191,11 @@ public void update(Graphics window)
    	{
    		while(true)
    		{
-   		   Thread.currentThread().sleep(5);
+   		   Thread.currentThread().sleep(8);
             repaint();
          }
-     }
-   	catch(Exception e)
-    {
-    }
-   }
+      }catch(Exception e)
+      {
+      }
+  	}
 }

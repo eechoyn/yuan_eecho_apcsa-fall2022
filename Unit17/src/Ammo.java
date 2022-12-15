@@ -1,42 +1,39 @@
+//(c) A+ Computer Science
+//www.apluscompsci.com
+//Name -
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
-import java.net.URL;
-
 import javax.imageio.ImageIO;
 
 public class Ammo extends MovingThing
 {
 	private int speed;
-    private Image image;
-	
-    public Ammo()
-    {
-    	this(0, 0, 1);
-    }
-    
-	public Ammo(int x, int y)
+
+	public Ammo()
 	{
-        this(x, y, 1);
+		this(0,0,3,3,10);
 	}
 
-	public Ammo(int x, int y, int s)
+	public Ammo(int x, int y)
 	{
-        super(x, y);
-        speed = s;
-        
-        try
-        {
-        	image = ImageIO.read(new File("/Users/eechoyuan/Desktop/apcsa/yuan_eecho_apcsa-fall2022/Unit17/src/pu.jpg"));
-        } catch (Exception e) {
-        	System.out.println("cannot load ammo picture");
-        }
+		this(x, y, 3, 3, 10);
+	}
+
+	public Ammo(int x, int y, int w, int h, int s)
+	{
+		setX(x);
+		setY(y);
+		setSpeed(s);
+		setWidth(w);
+		setHeight(h);
 	}
 
 	public void setSpeed(int s)
 	{
-	   speed = s;
+	   speed=s;
 	}
 
 	public int getSpeed()
@@ -46,24 +43,29 @@ public class Ammo extends MovingThing
 
 	public void draw( Graphics window )
 	{
-        window.drawImage(image, getX(), getY(), 5, 10, null);
+		window.setColor(Color.YELLOW);
+		window.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 	
 	
 	public void move( String direction )
 	{
-        if (direction.equals("UP")) {
-            super.setY(super.getY() - speed);
-        }
-        if (direction.equals("DOWN")) {
-            super.setY(super.getY() + speed);
-        }
-        if (direction.equals("RIGHT")) {
-            super.setX(getX() + speed);
-        }
-        if (direction.equals("LEFT")) {
-            super.setX(getX() - speed);
-        }
+		if (direction.equals("UP"))
+		   {
+			   setY(getY()-getSpeed());
+		   }
+		   else if (direction.equals("DOWN"))
+		   {
+			   setY(getY()+getSpeed());
+		   }
+		   else if (direction.equals("LEFT"))
+		   {
+			   setX(getX()-getSpeed());
+		   }
+		   else if (direction.equals("RIGHT")) 
+		   {
+			   setX(getX()+getSpeed());
+		   }
 	}
 
 	public String toString()

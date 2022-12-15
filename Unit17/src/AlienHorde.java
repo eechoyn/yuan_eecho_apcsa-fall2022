@@ -1,5 +1,4 @@
 //(c) A+ Computer Science
-
 //www.apluscompsci.com
 //Name -
 
@@ -13,58 +12,86 @@ import java.util.List;
 
 public class AlienHorde
 {
-    public List<Alien> aliens;
+	private List<Alien> aliens;
 
-	public AlienHorde()
+	public AlienHorde(int size)
 	{
-		aliens = new ArrayList<>();
+		aliens = new ArrayList<Alien>();
+		for (int i=0; i<size; i++)
+		{
+			add(new Alien(0, 0));
+		}
 	}
 
 	public void add(Alien al)
 	{
-        aliens.add(al);
-	}
-	
-	public List<Alien> getList(){
-		return aliens; 
+		aliens.add(al);
 	}
 
-	public Alien getAlien(int index)
-	{
-		return aliens.get(index);
-	}
-	
 	public void drawEmAll( Graphics window )
 	{
-        for (Alien a : aliens) {
-            a.draw(window);
-        }
+		for (int i=0; i<aliens.size(); i++)
+		{
+			aliens.get(i).draw(window);
+		}
 	}
 
 	public void moveEmAll()
 	{
-        for (Alien b : aliens) {
-            if (b.getX() >= 740) {
-                b.setBool(true);
-            }
-            if (b.getX() <= 0) {
-                b.setBool(false);
-            }
-            if (b.getBool()) {
-                b.move("LEFT");
-            } else {
-                b.move("RIGHT");
-            }
-        }
+		for (int i=0; i<aliens.size(); i++)
+		{
+			Alien current=aliens.get(i);
+			if (i==0 || aliens.get(i-1).getY()!=current.getY()
+					|| current.getX()+aliens.get(i-1).getWidth()+50<aliens.get(i-1).getX()
+					|| current.getX()>aliens.get(i-1).getX()+aliens.get(i-1).getWidth()+50)
+			{
+				if (current.getSpeed()>0 && current.getX()>=800-current.getWidth()-current.getSpeed()
+						|| current.getSpeed()<0 && current.getX()<=-current.getSpeed())
+				{
+					current.setSpeed(-current.getSpeed());
+					current.setY(current.getY()+current.getHeight());
+				}
+				else current.setX(current.getX()+current.getSpeed());
+			}
+		}
 	}
 
-	public void removeDeadOnes(boolean bool, Alien c)
+	public void removeDeadOnes(List<Ammo> shots)
 	{
-        if (bool) {
-            c.setPos(-100, -100);
-        }
+		for (int i =0; i<shots.size(); i++)
+		{
+			Ammo shot = shots.get(i);
+			for (int j=0; j<aliens.size(); j++)
+			{
+				Alien alien = aliens.get(j);
+				if(shot.getX() < (alien.getX() + alien.getWidth() + Math.abs(shot.getSpeed()))
+							&& shot.getX() >= (alien.getX() - shot.getWidth() - Math.abs(shot.getSpeed()))
+							&& shot.getX()<=alien.getX()+alien.getWidth()
+							&& shot.getY()<(alien.getY()+alien.getHeight())
+							&& (shot.getY()+shot.getHeight())>alien.getY())
+				{
+					aliens.remove(j);
+					shots.remove(i);
+					j--;
+					i--;
+				}
+			}
+		}
+	}
+	
+	public void stopHorde()
+	{
+		for (Alien alien : aliens)
+		{
+			alien.setSpeed(0);
+		}
 	}
 
+	public List<Alien> getList()
+	{
+		return aliens;
+	}
+	
 	public String toString()
 	{
 		return "";
