@@ -211,8 +211,8 @@ public class PictureTester
   
   public static void testColorburn()
   {
-    Picture bot = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
-    Picture top = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/femaleLionAndHall.jpg"); 
+    Picture bot = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/blueMotorcycle.jpg");
+    Picture top = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/redMotorcycle.jpg"); 
 //    bot.explore();
     bot.Colorburn(top); 
     bot.explore();
@@ -225,12 +225,18 @@ public class PictureTester
 	  Picture bot4 = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
 	  Picture top = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/femaleLionAndHall.jpg"); 
 	  
+	  bot1.explore(); 
+	  top.explore(); 
+	  
 	  bot1.Colorburn(top); 
 	  bot1.explore();
+	  
 	  bot2.Multiply(top); 
 	  bot2.explore();
+	  
 	  bot3.Screen(top); 
 	  bot3.explore();
+	  
 	  bot4.Overlay(top); 
 	  bot4.explore();
   }
