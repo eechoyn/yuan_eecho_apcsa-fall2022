@@ -182,6 +182,59 @@ public class PictureTester
     swan.decode().explore(); 
   }
   
+  public static void testMultiply()
+  {
+    Picture bot = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/blue-mark.jpg");
+    Picture top = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/kitten2.jpg"); 
+//    bot.explore();
+    bot.Multiply(top); 
+    bot.explore();
+  }
+  
+  public static void testScreen()
+  {
+    Picture bot = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/gorge.jpg");
+    Picture top = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/jenny-red.jpg"); 
+//    bot.explore();
+    bot.Screen(top); 
+    bot.explore();
+  }
+  
+  public static void testOverlay()
+  {
+    Picture bot = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/whiteFlower.jpg");
+    Picture top = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/swan.jpg"); 
+//    bot.explore();
+    bot.Overlay(top); 
+    bot.explore();
+  }
+  
+  public static void testColorburn()
+  {
+    Picture bot = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
+    Picture top = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/femaleLionAndHall.jpg"); 
+//    bot.explore();
+    bot.Colorburn(top); 
+    bot.explore();
+  }
+  
+  public static void testBlendModes() {
+	  Picture bot1 = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
+	  Picture bot2 = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
+	  Picture bot3 = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
+	  Picture bot4 = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
+	  Picture top = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/femaleLionAndHall.jpg"); 
+	  
+	  bot1.Colorburn(top); 
+	  bot1.explore();
+	  bot2.Multiply(top); 
+	  bot2.explore();
+	  bot3.Screen(top); 
+	  bot3.explore();
+	  bot4.Overlay(top); 
+	  bot4.explore();
+  }
+  
   /** Main method for testing.  Every class can have a main
     * method in Java */
   public static void main(String[] args)
@@ -189,6 +242,12 @@ public class PictureTester
     // uncomment a call here to run a test
     // and comment out the ones you don't want
     // to run
+//	  testMultiply(); 
+//	  testScreen(); 
+//	  testOverlay(); 
+//	  testColorburn(); 
+	  testBlendModes(); 
+	  
 //    testZeroBlue();
 //    testKeepOnlyBlue();
 //    testKeepOnlyRed();
@@ -211,7 +270,7 @@ public class PictureTester
 //    testEdgeDetection();
 //    testEdgeDetection2();
     //testChromakey();
-    testEncodeAndDecode();
+//    testEncodeAndDecode();
     //testGetCountRedOverValue(250);
     //testSetRedToHalfValueInTopHalf();
     //testClearBlueOverValue(200);

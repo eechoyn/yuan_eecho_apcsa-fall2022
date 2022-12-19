@@ -351,6 +351,12 @@ public class Pixel
    double average = (getRed() + getGreen() + getBlue()) / 3.0;
    return average;
  }
+ 
+ public void negatePix() {
+	 this.setRed(255-this.getRed());
+     this.setGreen(255-this.getGreen());
+     this.setBlue(255-this.getBlue());
+ }
   
   /**
    * Method to return a string with information about this pixel

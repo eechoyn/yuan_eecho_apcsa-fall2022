@@ -503,35 +503,6 @@ public class Picture extends SimplePicture
     }
   }
   
-  /** Hide a black and white message in the current
-  * picture by changing the red to even and then
-  * setting it to odd if the message pixel is black
-  * @param messagePict the picture with a message
-  */
-//  public void encode(Picture messagePict){
-//	  Pixel[][] messagePixels = messagePict.getPixels2D();
-//	  Pixel[][] currPixels = this.getPixels2D();
-//	  Pixel currPixel = null;
-//	  Pixel messagePixel = null;
-//	  int count = 0;
-//	  for (int row = 0; row < this.getHeight(); row++){
-//		  for (int col = 0; col < this.getWidth(); col++){
-//		  // if the current pixel red is odd make it even
-//		  currPixel = currPixels[row][col];
-//		  if (currPixel.getRed() % 2 == 1)
-//			  currPixel.setRed(currPixel.getRed() - 1);{
-//				  messagePixel = messagePixels[row][col];
-//			  }
-//		  if (messagePixel.colorDistance(Color.BLACK) < 50){
-//			  currPixel.setRed(currPixel.getRed() + 1);
-//			  count++;
-//		  	}
-//		  }
-//	  }
-//	  System.out.println(count);
-//  	}
-
-  
   public int findSum(Pixel pic) {
 	  int sum = (int)0.5*(pic.getRed()-pic.getBlue())+(pic.getRed()-pic.getGreen());
 	  return sum; 
@@ -644,38 +615,146 @@ public class Picture extends SimplePicture
 	  System.out.println(key + " " + count);
 	  return messagePicture;
 	 }
-  /**
-  * Method to decode a message hidden in the
-  * red value of the current picture
-  * @return the picture with the hidden message
-  */
-//  public Picture decode(){
-//	  Pixel[][] pixels = this.getPixels2D();
-//	  int height = this.getHeight();
-//	  int width = this.getWidth();
-//	  Pixel currPixel = null;
-//
-//	  Pixel messagePixel = null;
-//	  Picture messagePicture = new Picture(height,width);
-//	  Pixel[][] messagePixels = messagePicture.getPixels2D();
-//	  int count = 0;
-//	  for (int row = 0; row < this.getHeight(); row++){
-//		  for (int col = 0; col < this.getWidth(); col++){
-//			  currPixel = pixels[row][col];
-//			  messagePixel = messagePixels[row][col];
-//			  if (currPixel.getRed() % 2 == 1){
-//				  messagePixel.setColor(Color.BLACK);
-//				  count++;
-//			  }
-//		  	}
-//	  	}
-//	  System.out.println(count);
-//	  return messagePicture;
-//	 }
   
-  /* Main method for testing - each class in Java can have a main 
-   * method 
-   */
+  // group project extension with photoshop blend modes 
+  
+  public void Multiply(Picture otherPic) {
+	  Pixel[][] topPixels = otherPic.getPixels2D();
+	  Pixel[][] botPixels = this.getPixels2D();
+	  Pixel currPixel = null;
+	  Pixel topPixel = null;
+	  
+	  for (int r = 0; r<Math.min(botPixels.length,topPixels.length); r++) {
+		  for (int c = 0; c<Math.min(botPixels[0].length,topPixels[0].length); c++) {
+			  currPixel = botPixels[r][c]; 
+			  topPixel = topPixels[r][c]; 
+			  
+			  int red = currPixel.getRed()*topPixel.getRed()/255; 
+			  int green = currPixel.getGreen()*topPixel.getGreen()/255; 
+			  int blue = currPixel.getBlue()*topPixel.getBlue()/255; 
+			  
+			  currPixel.setRed(red);
+			  currPixel.setGreen(green);
+			  currPixel.setBlue(blue);
+		  }
+	  }
+  }
+  
+  public void Screen(Picture otherPic) {
+	  Pixel[][] topPixels = otherPic.getPixels2D();
+	  Pixel[][] botPixels = this.getPixels2D();
+	  Pixel currPixel = null;
+	  Pixel topPixel = null;
+	  
+	  for (int r = 0; r<Math.min(botPixels.length,topPixels.length); r++) {
+		  for (int c = 0; c<Math.min(botPixels[0].length,topPixels[0].length); c++) {
+			  currPixel = botPixels[r][c]; 
+			  topPixel = topPixels[r][c];  
+			  
+			  currPixel.negatePix(); 
+			  topPixel.negatePix();
+			  
+			  int red = currPixel.getRed()*topPixel.getRed()/255; 
+			  int green = currPixel.getGreen()*topPixel.getGreen()/255; 
+			  int blue = currPixel.getBlue()*topPixel.getBlue()/255; 
+			  
+			  currPixel.setRed(red);
+			  currPixel.setGreen(green);
+			  currPixel.setBlue(blue);
+		  }
+	  }
+  }
+  
+  public void Overlay(Picture otherPic) {
+	  Pixel[][] topPixels = otherPic.getPixels2D();
+	  Pixel[][] botPixels = this.getPixels2D();
+	  Pixel currPixel = null;
+	  Pixel topPixel = null;
+	  
+	  for (int r = 0; r<Math.min(botPixels.length,topPixels.length); r++) {
+		  for (int c = 0; c<Math.min(botPixels[0].length,topPixels[0].length); c++) {
+			  currPixel = botPixels[r][c]; 
+			  topPixel = topPixels[r][c]; 
+			  
+			  int temp; 
+			  
+			  if(topPixel.getRed()<128) {
+				  temp = 2*currPixel.getRed()*topPixel.getRed()/255; 
+                  temp = Math.min(255, temp);
+                  currPixel.setRed(temp);
+			  }
+			  else{
+				  temp = 255-2*(255-currPixel.getRed())*(255-topPixel.getRed())/255;
+				  temp = Math.min(255, temp);
+                  currPixel.setRed(temp);
+			  }
+			  if(topPixel.getGreen()<128) {
+				  temp = 2*currPixel.getGreen()*topPixel.getGreen()/255; 
+                  temp = Math.min(255, temp);
+                  currPixel.setGreen(temp);
+			  }
+			  else{
+				  temp = 255-2*(255-currPixel.getGreen())*(255-topPixel.getGreen())/255;
+				  temp = Math.min(255, temp);
+                  currPixel.setGreen(temp);
+			  }
+			  if(topPixel.getBlue()<128) {
+				  temp = 2*currPixel.getBlue()*topPixel.getBlue()/255; 
+                  temp = Math.min(255, temp);
+                  currPixel.setBlue(temp);
+			  }
+			  else{
+				  temp = 255-2*(255-currPixel.getBlue())*(255-topPixel.getBlue())/255;
+				  temp = Math.min(255, temp);
+                  currPixel.setBlue(temp);
+			  }
+		  }
+	  }
+  }
+  
+  public void Colorburn(Picture otherPic) {
+	  Pixel[][] topPixels = otherPic.getPixels2D();
+	  Pixel[][] botPixels = this.getPixels2D();
+	  Pixel currPixel = null;
+	  Pixel topPixel = null;
+	  
+	  this.negate(); 
+	  
+	  for (int r = 0; r<Math.min(botPixels.length,topPixels.length); r++) {
+		  for (int c = 0; c<Math.min(botPixels[0].length,topPixels[0].length); c++) {
+			  currPixel = botPixels[r][c]; 
+			  topPixel = topPixels[r][c];  
+			  
+			  
+			  int red, blue, green; 
+			  
+			  if(topPixel.getRed()!=0) {
+				  red = Math.max(0,(int)Math.pow(2,8)*(currPixel.getRed())/topPixel.getRed());
+			  }
+			  else {
+				  red = topPixel.getRed(); 
+			  }
+			  if(topPixel.getGreen()!=0) {
+				  green = Math.max(0,(int)Math.pow(2,8)*(currPixel.getGreen())/topPixel.getGreen());
+			  }
+			  else {
+				  green = topPixel.getGreen(); 
+			  }
+			  if(topPixel.getBlue()!=0) {
+				  blue = Math.max(0,(int)Math.pow(2,8)*(currPixel.getBlue())/topPixel.getBlue());
+			  }
+			  else {
+				  blue = topPixel.getBlue(); 
+			  }
+			  
+			  currPixel.setRed(red);
+			  currPixel.setGreen(green);
+			  currPixel.setBlue(blue);
+		  }
+	  }
+	  this.negate(); 
+  }
+ 
   public static void main(String[] args) 
   {
     Picture beach = new Picture("/Users/eechoyuan/Desktop/Unit16-Assignments-pixLab/images/beach.jpg");
